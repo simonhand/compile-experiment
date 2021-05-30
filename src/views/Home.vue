@@ -38,9 +38,14 @@
       <el-button type="primary" @click="first">Forst集合</el-button>
       <el-button type="primary" @click="drawer = true">显示核心代码</el-button>
       <el-drawer title="我是标题" :visible.sync="drawer" :with-header="false">
-        <span>我来啦!</span>
+        <span class="code"><mycodemirror/></span>
       </el-drawer>
     </div>
+    <div class="message">
+      <div>文法</div>
+      <div>first集合</div>
+    </div>
+    <div class="showAll">
     <div class="show">
       <div v-for="(item, index) in arrinfo" :key="index">
         <div>{{ item.wf }}</div>
@@ -48,15 +53,27 @@
         <div>{{ item.wenfa }}</div>
       </div>
     </div>
+    <div class="showspeace">
+
+    </div>
+    <div class="show">
+      <div v-for="(item, index) in target" :key="index">
+        <div>{{ item.wf }}</div>
+        <div>-></div>
+        <div>{<span>{{item.wenfas | ArrJoin}}</span>}</div>
+      </div>
+    </div>
+  </div>
   </div>
 </template>
 <script>
+import mycodemirror from '@/components/mycodemirror'
 import { gramar } from "@/domain/gramar.js";
 import {first} from "@/util/ischarCap"
 // @ is an alias to /src
 export default {
   name: "Home",
-  components: {},
+  components: {mycodemirror},
   data() {
     return {
       drawer: false,
@@ -67,10 +84,17 @@ export default {
         wf: "",
         wenfa: "",
       },
-      arrinfo: [{wf:"S",wenfa:'a|AB'},{wf:"S",wenfa:'b|B'},{wf:"G",wenfa:"g"}],
-      flag: ["S","G"],
-      target:[]
+      // {wf:"S",wenfa:'a|AB'},{wf:"S",wenfa:'b|B'},{wf:"G",wenfa:"g"}
+      arrinfo: [],
+      flag: [],
+      target:[],
+      // code:fisrtcode
     };
+  },
+  filters:{
+    ArrJoin(value){
+      return value.join(',');
+    }
   },
   methods: {
     submit: function () {
@@ -169,4 +193,35 @@ export default {
   margin-top: 5px;
   display: flex;
 }
+.showAll{
+  margin-top: -10px;
+  display: flex;
+  flex-direction: row;
+}
+.showspeace{
+  width: 200px;
+}
+.show1{
+  margin-top: 10px;
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  color: #a1a1a1;
+}
+.message{
+  width: 340px;
+  color: #a1a1a1;
+  display: flex;
+  margin-left: 20px;
+  margin-top: 20px;
+  justify-content: space-between;
+}
+.code{
+  height: 100%;
+  /* border: 2px solid #000; */
+}
+.CodeMirror {
+            border: 1px solid #eee;
+            height: auto;
+        }
 </style>
